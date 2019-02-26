@@ -58,7 +58,7 @@ module.exports = function solveSudoku(matrix) {
 	  if(m[i][j].length > 2) sector(i, j);
 	  if(m[i][j].length == 2) m[i][j].splice (0,1);
 	  }
-	return (m);					 															//Sudoku solution
+	return (matrix);					 															//Sudoku solution
 	}
   // your solution
 }
