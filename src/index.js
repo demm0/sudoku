@@ -77,19 +77,19 @@ module.exports = function solveSudoku(matrix) {
 				}
 			}
 			if (schet == 0) {
-				m[r][t] = m[r][t][l];
+				m[r][t] = [m[r][t][l]];
 				break;
 			}
 		}
 	}	
 
-
 	function sector(r,t){																	// function sector
-	  for (let l = 0; l < m[r].length; l ++){
-			for (let p = 0; p < m.length; p ++){
+	  for (let l = 0; l < m.length; l ++){
+			for (let p = 0; p < m[l].length; p ++){
 				if ((Math.trunc(r / Math.sqrt(m.length)) == Math.trunc(l / Math.sqrt(m.length))) 
 				&& (Math.trunc(t / Math.sqrt(m.length)) == Math.trunc(p / Math.sqrt(m.length)))
-				&& ((p != t) && (l != t))){
+				&& ((p != t) && (l != r))
+				&& (m[l][p][0] != 0)){
 					for (let s = 1; s<m[r][t].length; s++){
 						if (m[r][t][s]==m[l][p][0]){
 							m[r][t].splice (s,1);
@@ -99,15 +99,32 @@ module.exports = function solveSudoku(matrix) {
 			}
 		}
 	}
-
+/*
+	function insector(r,t){																	// function insector
+	  for (l = 1; l<m[r].length; l++){
+			for (let p = 0; i < m[r].length; i ++){
+				for (let k = 0; k < m[i][t].length; k ++){
+					if ((m[r][t][l] == m[i][t][k]) && (i != r)){		
+						schet++;
+					}
+				}
+			}
+		}
+	}
+*/
 let x = 1;
 
 	do{	
 		let usl = false;
-		for (i = 0; i < m.length; i ++){																// for line
+		for (i = 0; i < m.length; i ++){
 			for (j = 0; j < m[i].length; j ++){														
 				if (m[i][j].length > 2) {
-					line(i, j); 
+					line (i, j); 
+					column (i, j); 
+					sector (i, j); 
+					inline (i, j);
+					incolumn (i, j);
+//					insector (i, j); 
 					usl = true;
 				}
 				if (m[i][j].length == 2) {
@@ -115,57 +132,8 @@ let x = 1;
 				}
 			}	
 		}
-		
-		for (i = 0; i < m.length; i ++) {																// for column
-			for (j = 0; j <m [i].length; j ++){														
-				if (m[i][j].length > 2) 		{
-					column(i, j); 
-					usl = true;
-				}
-				if (m[i][j].length == 2) {
-					m[i][j].splice (0,1);
-				}
-			}
-		}
-	
-		for (i = 0; i < m.length; i ++){ 																// for sector
-			for (j = 0; j < matrix[i].length; j ++){														
-				if (m[i][j].length > 2) {
-					sector(i, j); 
-					usl = true;
-				}
-				if (m[i][j].length == 2) {
-					m[i][j].splice (0,1);
-				}
-			}
-		}
-
-		for (i = 0; i < m.length; i ++){																// for inline
-			for (j = 0; j < m[i].length; j ++){														
-				if (m[i][j].length > 2) {
-					inline(i, j); 
-					usl = true;
-				}
-				if (m[i][j].length == 2) {
-					m[i][j].splice (0,1);
-				}
-			}	
-		}
-
-		for (i = 0; i < m.length; i ++){																// for incolumn
-			for (j = 0; j < m[i].length; j ++){														
-				if (m[i][j].length > 2) {
-					incolumn(i, j); 
-					usl = true;
-				}
-				if (m[i][j].length == 2) {
-					m[i][j].splice (0,1);
-				}
-			}	
-		}
-
 		x++;
-	}	while (x <= 25);
+	}	while (x <= 45);
 
 return m;
   // your solution
