@@ -29,7 +29,7 @@ module.exports = function solveSudoku(matrix) {
 			}
 		}
 	
-	function line(r,t){																		// function line
+	function line ( r , t ){																		// function line
 	  for (let l = 0; l < m[r].length; l ++){
 			for (let s = 1; s < m[r][t].length; s ++){
 				if (m[r][t][s] == m[r][l][0]){		
@@ -39,7 +39,7 @@ module.exports = function solveSudoku(matrix) {
 		}
 	}	
 	
-	function inline(r,t){																	// function inline
+	function inline ( r , t ){																	// function inline
 		for (l = 1; l<m[r][t].length; l++){
 			let schet = 0;
 			for (let i = 0; i < m[r].length; i ++){
@@ -56,7 +56,7 @@ module.exports = function solveSudoku(matrix) {
 		}
 	}	
 
-	function column(r,t){																	// function column
+	function column ( r , t ){																	// function column
 	  for (let l = 0; l < m.length; l ++){
 			for (let s = 1; s < m[r][t].length; s ++){
 				if (m[r][t][s] == m[l][t][0]){
@@ -66,7 +66,7 @@ module.exports = function solveSudoku(matrix) {
 		}
 	}	
 	
-	function incolumn(r,t){																	// function incolumn
+	function incolumn ( r , t ) {																	// function incolumn
 		for (l = 1; l<m[r][t].length; l++){
 			let schet = 0;
 			for (let i = 0; i < m[r].length; i ++){
@@ -83,35 +83,46 @@ module.exports = function solveSudoku(matrix) {
 		}
 	}	
 
-	function sector(r,t){																	// function sector
+	function sector ( r , t ){																	// function sector
 	  for (let l = 0; l < m.length; l ++){
 			for (let p = 0; p < m[l].length; p ++){
 				if ((Math.trunc(r / Math.sqrt(m.length)) == Math.trunc(l / Math.sqrt(m.length))) 
 				&& (Math.trunc(t / Math.sqrt(m.length)) == Math.trunc(p / Math.sqrt(m.length)))
 				&& ((p != t) && (l != r))
 				&& (m[l][p][0] != 0)){
-					for (let s = 1; s<m[r][t].length; s++){
-						if (m[r][t][s]==m[l][p][0]){
-							m[r][t].splice (s,1);
+					for (let s = 1; s < m[r][t].length; s ++){
+						if (m[r][t][s] == m[l][p][0]){
+							m[r][t].splice(s,1);
 						}
 					}
 				}
 			}
 		}
 	}
-/*
-	function insector(r,t){																	// function insector
-	  for (l = 1; l<m[r].length; l++){
-			for (let p = 0; i < m[r].length; i ++){
-				for (let k = 0; k < m[i][t].length; k ++){
-					if ((m[r][t][l] == m[i][t][k]) && (i != r)){		
-						schet++;
+
+	function insector ( r , t ){																	// function insector
+		for (let l = 1; l < m.length; l++){
+			for (let p = 0; p < m[l].length; p ++){
+				let schet = 0;	
+				if ((Math.trunc(r / Math.sqrt(m.length)) == Math.trunc(l / Math.sqrt(m.length))) 
+				&& (Math.trunc(t / Math.sqrt(m.length)) == Math.trunc(p / Math.sqrt(m.length)))
+				&& ((p != t) && (l != r))){	
+					for (let s = 1; s<m[r][t].length; s++){
+						for (let k = 0; k < m[l][p].length; k ++){
+							if (m[r][t][s] == m[l][p][k]){		
+								schet++;
+							}
+						}
+					}
+					if (schet == 0) {
+						m[r][t] = [m[r][t][l]];
+						break;	
 					}
 				}
 			}
 		}
 	}
-*/
+
 let x = 1;
 
 	do{	
@@ -133,7 +144,7 @@ let x = 1;
 			}	
 		}
 		x++;
-	}	while (x <= 45);
+	}	while (x <= 5);
 
 return m;
   // your solution
